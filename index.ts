@@ -61,7 +61,7 @@ function sendTextMessage(sender: any, text: any) {
 		method: 'POST',
 		json: {
 			recipient: { id: sender },
-			message: { text: "SOME MEESAGE " },
+			message: { text: "SOME MEESAGE dfdf" },
 		}
 	}, function (error: any, response: any, body: any) {
 		if (error) {

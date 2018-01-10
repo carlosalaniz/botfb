@@ -26,7 +26,7 @@ export class WebHookController extends Controller {
             method: 'POST',
             json: {
                 recipient: { id: sender },
-                message: { text: "SOME MEESAGE " },
+                message: { text: "SomeOther message" },
             }
         }, function (error: any, response: any, body: any) {
             if (error) {
