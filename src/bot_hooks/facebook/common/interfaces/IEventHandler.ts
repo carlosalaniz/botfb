@@ -1,4 +1,4 @@
 "use strict"
 interface IEventHandler<T> {
-    HandleAsync(data: T): void;
+    HandleAsync(data: T): Promise<void>;
 }

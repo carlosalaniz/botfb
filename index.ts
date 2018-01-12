@@ -1,3 +1,4 @@
+import { MessageReadEventHandler } from './src/bot_hooks/facebook/handlers/MessageReadEventHandler';
 'use strict'
 import { UserProfileHandler } from "./src/bot_hooks/facebook/repositories/UserProfileHandler";
 import { TestController } from "./src/controllers/TestController";
@@ -36,11 +37,12 @@ app.get('/webhook/', function (req: any, res: any) {
 	res.send('Error, wrong token')
 })
 
-app.post('/webhook/', function (req: any, res: any)  {
+app.post('/webhook/', async function (req: any, res: any)  {
 	var processor = new FacebookMessageProcessor();
-	console.log(WebhookEventsEnum.messages);
-	processor.register(WebhookEventsEnum.messages, new MessageReceivedEventHandler);
-	processor.process(<IMessangerWebhookEvent>req.body);
+	//console.log(WebhookEventsEnum.messages);
+	processor.register(WebhookEventsEnum.messages, new MessageReceivedEventHandler());
+	processor.register(WebhookEventsEnum.message_reads, new MessageReadEventHandler());
+	await processor.processAsync(<IMessangerWebhookEvent>req.body);
 	res.sendStatus(200)
 })
 

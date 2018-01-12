@@ -9,17 +9,17 @@ export class FacebookMessageProcessor {
         this.handlers = {};
     }
 
-    private processEntries(entities: IEntry[]): void {
+    private async processEntriesAsync(entities: IEntry[]) {
         var entity: IEntry;
         for (var i = 0; i < entities.length; i++) {
             entity = entities[i];
-            for (var eventType in WebhookEventsEnum) {
-                if ((<any>entity.messaging[0])[WebhookEventsEnum[eventType]] != undefined) {
+            for (var eventTypeKey in WebhookEventsEnum) {
+                var eventType = WebhookEventsEnum[eventTypeKey];
+                if ((<any>entity.messaging[0])[eventType] != undefined) {
                     if (this.handlers[eventType] != undefined) {
-                        this.handlers[eventType].HandleAsync(entity.messaging);
+                        await this.handlers[eventType].HandleAsync(entity.messaging[0]);
                         break;
                     }
-                    console.log(this.handlers);
                     console.error("No handler was registered for event type: " + eventType);
                 }
             }
@@ -31,11 +31,11 @@ export class FacebookMessageProcessor {
         this.handlers[eventType] = eventHandler;
     }
 
-    process(message: IMessangerWebhookEvent) {
+    async processAsync(message: IMessangerWebhookEvent) {
         //Do something with message
-        console.log(message);
+        
         //process entries
-        this.processEntries(message.entry);
+        await this.processEntriesAsync(message.entry);
     }
 
 }

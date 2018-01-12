@@ -1,5 +1,5 @@
 export enum WebhookEventsEnum {
-    messages = "messaging",
+    messages = "message",
     message_deliveries = "delivery",
     message_reads = "read"
 }
