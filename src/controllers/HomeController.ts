@@ -1,13 +1,10 @@
 import { Controller } from "./Controller";
 
-export class TestController extends Controller {
+export class HomeController extends Controller {
     register(): void {
-        this.app.get('/test', this.GetTest);
+        this.app.get(this.routePrefix + '/', this.GetTest);
     }
     private GetTest(req: any, res: any) {
         res.send("hello world");
     }
-
-
-
 }

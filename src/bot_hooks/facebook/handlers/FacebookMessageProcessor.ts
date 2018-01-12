@@ -2,14 +2,14 @@ import { WebhookEventsEnum } from "../common/enums/WebhookEventsEnum";
 
 "user strict"
 
-export class FacebookMessageProcessor {
+export class FacebookMessageProcessor implements IMessageProcessor {
     private handlers: { [key: string]: IEventHandler<any> };
 
     constructor() {
         this.handlers = {};
     }
 
-    private async processEntriesAsync(entities: IEntry[]) {
+    private processEntries(entities: IEntry[]) {
         var entity: IEntry;
         for (var i = 0; i < entities.length; i++) {
             entity = entities[i];
@@ -17,7 +17,7 @@ export class FacebookMessageProcessor {
                 var eventType = WebhookEventsEnum[eventTypeKey];
                 if ((<any>entity.messaging[0])[eventType] != undefined) {
                     if (this.handlers[eventType] != undefined) {
-                        await this.handlers[eventType].HandleAsync(entity.messaging[0]);
+                        this.handlers[eventType].Handle(entity.messaging[0]);
                         break;
                     }
                     console.error("No handler was registered for event type: " + eventType);
@@ -31,11 +31,11 @@ export class FacebookMessageProcessor {
         this.handlers[eventType] = eventHandler;
     }
 
-    async processAsync(message: IMessangerWebhookEvent) {
+    process(message: any) {
         //Do something with message
-        
+
         //process entries
-        await this.processEntriesAsync(message.entry);
+        this.processEntries(message.entry);
     }
 
 }

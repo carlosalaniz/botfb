@@ -1,12 +1,14 @@
 
 interface IController {
-    register : () => void;
+    register: () => void;
 }
 
 export abstract class Controller implements IController {
     app: any;
-    constructor(app : any){
-        this.app =  app;
+    routePrefix?: string;
+    constructor(app: any, routePrefix: string = "") {
+        this.app = app;
+        this.routePrefix = routePrefix;
     }
     abstract register(): void;
 }

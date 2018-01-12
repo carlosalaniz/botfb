@@ -1,0 +1,23 @@
+//Mechanic Shop Example
+{
+    "greeting": {
+        "type": "call-for-action",
+        "triggers": ["hi","hello","hey!"],
+        "responses": [{},{},{}],
+        "action": null
+    },
+    "goodbye": {},
+    "check-status": {
+        "paramenters":{
+            "car-made":"",
+            "car-model":"",
+            "car-year":""
+
+        }
+    },
+    "schedule-appointment": {},
+    "information": {
+        "services-offered": {}
+    },
+    "contact": {}
+}

@@ -17,7 +17,7 @@ export class MessensageRepository extends BaseRepository {
         };
         await request(options, function (err: any, httpResponse: any, body: any) {
             if (err) {
-                return console.error('upload failed:', err);
+                return console.error('failed:', err);
             }
         })
     }
