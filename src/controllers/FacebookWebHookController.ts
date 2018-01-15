@@ -1,5 +1,5 @@
 import { Controller } from "./Controller";
-import { FacebookMessageProcessor } from "../bot_hooks/facebook/handlers/FacebookMessageProcessor";
+import { FacebookEventsHandler } from "../bot_hooks/facebook/handlers/FacebookEventsHandler";
 import { WebhookEventsEnum } from "../bot_hooks/facebook/common/enums/WebhookEventsEnum";
 import { MessageReceivedEventHandler } from "../bot_hooks/facebook/handlers/MessageReceivedEventHandler";
 import { MessageReadEventHandler } from "../bot_hooks/facebook/handlers/MessageReadEventHandler";
@@ -8,7 +8,7 @@ const request = require('request');
 var config = require('config');
 
 export class FacebookWebHookController extends Controller {
-    private processor: IMessageProcessor;
+    private processor: IEventsHandler;
     register(): void {
         this.app.get(this.routePrefix + '/',
             (req: any, res: any) => this.WebHookVerification(req, res));
@@ -35,7 +35,7 @@ export class FacebookWebHookController extends Controller {
      */
     PostCallback(req: any, res: any) {
         try {
-            this.processor.process(req.body);
+            this.processor.handle(req.body);
         } catch (err) {
             console.log(err);
         }
@@ -46,7 +46,7 @@ export class FacebookWebHookController extends Controller {
         if (routePrefix === undefined)
             routePrefix = "/webhook"
         super(app, routePrefix);
-        this.processor = new FacebookMessageProcessor();
+        this.processor = new FacebookEventsHandler();
         this.processor.register(WebhookEventsEnum.messages, new MessageReceivedEventHandler());
         this.processor.register(WebhookEventsEnum.message_reads, new MessageReadEventHandler());
     }

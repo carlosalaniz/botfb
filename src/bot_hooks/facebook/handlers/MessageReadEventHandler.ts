@@ -3,9 +3,9 @@
 import * as WebRequest from 'web-request';
 import { MessensageRepository } from '../repositories/MessageRepository';
 
-export class MessageReadEventHandler implements IEventHandler<IReadEvent> {
+export class MessageReadEventHandler implements IEventHandler<IReadDto> {
     private repo: MessensageRepository;
-    Handle(data: IReadEvent) {
+    Handle(data: IReadDto) {
         console.log("Message Read.")
     }
     constructor() {

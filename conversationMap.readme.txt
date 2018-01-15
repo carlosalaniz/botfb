@@ -1,0 +1,39 @@
+Message : 
+    {
+        "await-confirmation":true,
+        "messages": [
+            [
+                "You want to schedule an appointment!",
+                "Perfect!",
+                "Lets start by getting some information about your car."
+            ]
+        ]
+    }
+
+    Message.messages string[][] (string array array) , required.
+        Will pick randomly from this array.
+            Will process|Send the array of string in order
+    
+    Message.await-anwser: boolean, default: false 
+        Will wait for user input
+    
+    Message.await-confirmation: boolean, default: false 
+        if await answer is set to true, It will confirm the user input.
+        Will wait for yes/no answer
+ 
+    Message.field: string, required if await-answer is set to true.
+        Variable name to hold user input
+
+    Message.confirm: ConfirmDecline
+        default: {
+            continue: true
+            messages: null
+        }
+    Message.decline: ConfirmDecline 
+        default:{
+            exit:true
+        }
+    
+
+
+continu
