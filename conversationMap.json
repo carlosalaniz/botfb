@@ -1,23 +1,94 @@
-//Mechanic Shop Example
 {
-    "greeting": {
-        "type": "call-for-action",
-        "triggers": ["hi","hello","hey!"],
-        "responses": [{},{},{}],
-        "action": null
-    },
-    "goodbye": {},
-    "check-status": {
-        "paramenters":{
-            "car-made":"",
-            "car-model":"",
-            "car-year":""
-
-        }
-    },
-    "schedule-appointment": {},
-    "information": {
-        "services-offered": {}
-    },
-    "contact": {}
+    "use-localization": false,
+    "locale": false,
+    "localization-strings-files": null,
+    "actions": {
+        "greeting": {
+            "task": null,
+            "parameters": null,
+            "response": [
+                "Hello how can I help you today?",
+                "Hi! %(name)s, how can I be of your assistance?"
+            ]
+        },
+        "goodbye": {
+            "task": {
+                "uri": "https://www.carshop.com/api/v1/close-session",
+                "method": "get",
+                "qs": {
+                    "consersation-id": "%(conversation.id)d"
+                }
+            },
+            "parameters": null,
+            "response": [
+                "Good bye!",
+                "Have a nice day!"
+            ]
+        },
+        "check-status": {
+            "task": {
+                "uri": "https://www.carshop.com/api/v1/check-status",
+                "method": "get"
+            },
+            "paramenters": {
+                "qs": true,
+                "car-details": [
+                    {
+                        "field": "car-make",
+                        "response": [
+                            "What is the your car make?"
+                        ],
+                        "required": false
+                    },
+                    {
+                        "field": "car-model",
+                        "message": [
+                            "What is the your car make?" //localization string
+                        ],
+                        "required-if": "%(car-make == null)b"
+                    },
+                    {
+                        "field": "car-year",
+                        "message": [
+                            "ask-for-car-model" //localization string
+                        ],
+                        "required-if": "%(car-make == null)b"                        
+                    },
+                ]
+            }
+        },
+        "schedule-appointment": {
+            "task": {
+                "uri": "https://www.carshop.com/api/v1/schedule-appointment",
+                "method": "get"
+            },
+            "paramenters": {
+                "qs": true,
+                "car-details": [
+                    {
+                        "field": "car-make",
+                        "message": [
+                            "ask-for-car-make" //localization string
+                        ]
+                    },
+                    {
+                        "field": "car-model",
+                        "message": [
+                            "ask-for-car-make" //localization string
+                        ]
+                    },
+                    {
+                        "field": "car-model",
+                        "message": [
+                            "ask-for-car-model" //localization string
+                        ]
+                    }
+                ]
+            }
+        },
+        "information": {
+            "services-offered": {}
+        },
+        "contact": {}
+    }
 }
