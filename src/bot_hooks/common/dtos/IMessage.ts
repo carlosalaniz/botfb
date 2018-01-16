@@ -13,7 +13,7 @@ interface ITokenActionMap {
 }
 
 interface IAction {
-    task: IActionTask,
+    task: IActionTask | null,
     conversation?: IConversation[],
     response?: {
         success?: IMessage[],
@@ -22,10 +22,10 @@ interface IAction {
 }
 
 interface IConversation {
-    field: string;
+    field?: string | null;
     opening: IMessage[],
-    questions: IMessage[],
-    closing: IMessage[]
+    questions?: IMessage[],
+    closing?: IMessage[]
 }
 
 interface IActionTask {
