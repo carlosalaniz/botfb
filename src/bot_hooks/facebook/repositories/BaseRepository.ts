@@ -1,10 +1,10 @@
 'use strict'
 var config = require('config');
 export abstract class BaseRepository {
-    protected readonly baseUri: string;
+    abstract readonly baseUri: string;
     protected readonly pageAccessToken: string;
-    constructor() {
+    constructor(baseUri:string) {
         this.pageAccessToken = config.get("PageAccessToken");
-        this.baseUri = config.get("WebService.MessengerProfile");
+        this.baseUri = baseUri;
     }
 }

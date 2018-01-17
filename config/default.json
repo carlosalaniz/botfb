@@ -1,6 +1,7 @@
 {
-    "PageAccessToken": "EAACHtgoZCfj8BABx4ABX7WcpSeIAsXCZCPC62uEUgTyI6XTHxn2vLKE9vWlSvbXsBZBKu1rs488gW4Gl7B27FV9zHZCx8ZAa6IqyCxvMGYLQkYlv8aVoed7pgHoazeJxp8Oir14DHWqwbYWy02FluWkMq5RdNWZB17wlNodGXxuoRwSnWjUH2e",
+    "PageAccessToken": "EAACHtgoZCfj8BAHi8IJedJEKeTZCFcqIeJCGOXHSGvZAaOP4gfwJsopwvKKsA2qQUhh0NUDBefjKN4pdRU7DEOtwQZCMAGSSZCg0QJZCf3SwRmWB1N6IVAzCLaeqTa2DJ0KZAv7CYZCRSnJ4kwAMXZBLL7UWTLGwTZBw8ll921MZCpZAaQZDZD",
     "WebHookValidationToken": "d4ddefc6-d1c1-4219-b432-74f67a045f09",
+    "FacebookPageId": 1788271627919179,
     "Persistance": {
         "redis": {
             "host": "127.0.0.1",
@@ -15,7 +16,10 @@
         "message_deliveries": "delivery",
         "message_reads": "read"
     },
-    "WebService": {
-        "MessengerProfile": "https://graph.facebook.com/v2.6/me/messenger_profile"
+    "BotHooks": {
+        "Facebook": {
+            "MessagerMessages": "https://graph.facebook.com/v2.6/me/messages",
+            "MessengerProfile": "https://graph.facebook.com/v2.6/me/messenger_profile"
+        }
     }
 }
