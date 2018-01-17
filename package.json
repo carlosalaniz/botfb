@@ -2,12 +2,12 @@
   "name": "bot-test-v001",
   "version": "1.0.0",
   "description": "messenger bot test",
-  "main": "index.js",
+  "main": "startup.js",
   "scripts": {
     "start": "npm run build:live",
     "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./startup.ts",
     "postinstall": "npm run build",
-    "build": "tsc"
+    "build": ""
   },
   "author": "",
   "license": "ISC",
