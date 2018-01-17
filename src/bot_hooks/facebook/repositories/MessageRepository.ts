@@ -14,9 +14,11 @@ export class MessensageRepository
             json: true
         };
         await request(options, function (err: any, httpResponse: any, body: any) {
+            console.log("completed!")
             if (err) {
                 return console.error('failed:', err);
             }
         })
+        console.log("itwaited!")
     }
 }
