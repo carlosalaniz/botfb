@@ -9,6 +9,7 @@ var config = require('config');
 
 export class FacebookWebHookController extends Controller {
     private processor: IEventsHandler;
+    private db: IPersistance;
     register(): void {
         this.app.get(this.routePrefix + '/',
             (req: any, res: any) => this.WebHookVerification(req, res));
@@ -42,9 +43,9 @@ export class FacebookWebHookController extends Controller {
         res.sendStatus(200)
     }
 
-    constructor(app: any, routePrefix?: string) {
-        if (routePrefix === undefined)
-            routePrefix = "/webhook"
+    constructor(app: any, routePrefix: string, db: IPersistance) {
+        if (routePrefix == null)
+            routePrefix = "/facebook-webhook"
         super(app, routePrefix);
         this.processor = new FacebookEventsHandler();
         this.processor.register(WebhookEventsEnum.messages, new MessageReceivedEventHandler());

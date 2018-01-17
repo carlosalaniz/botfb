@@ -1,6 +1,15 @@
 {
     "PageAccessToken": "EAACHtgoZCfj8BABx4ABX7WcpSeIAsXCZCPC62uEUgTyI6XTHxn2vLKE9vWlSvbXsBZBKu1rs488gW4Gl7B27FV9zHZCx8ZAa6IqyCxvMGYLQkYlv8aVoed7pgHoazeJxp8Oir14DHWqwbYWy02FluWkMq5RdNWZB17wlNodGXxuoRwSnWjUH2e",
     "WebHookValidationToken": "d4ddefc6-d1c1-4219-b432-74f67a045f09",
+    "Persistance": {
+        "redis": {
+            "host": "127.0.0.1",
+            "port": 6379,
+            "family": null,
+            "password": null,
+            "db": null
+        }
+    },
     "WebhookRegisteredEvents": {
         "messages": "message",
         "message_deliveries": "delivery",

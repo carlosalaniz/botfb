@@ -1,3 +1,4 @@
+import { RedisPersistance } from './src/common/RedisPersistance';
 
 'use strict'
 
@@ -7,6 +8,7 @@ import { FacebookWebHookController } from './src/controllers/FacebookWebHookCont
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+const db = new RedisPersistance();
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -20,7 +22,7 @@ app.use(bodyParser.json())
 new HomeController(app)
 	.register();
 
-new FacebookWebHookController(app, "/facebook-webhook")
+new FacebookWebHookController(app, "/facebook-webhook", db)
 	.register();
 
 // Spin up the server
