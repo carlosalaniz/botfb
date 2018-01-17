@@ -20,7 +20,6 @@ export abstract class MessageProcessor<TMessageType> {
         this.messageRepo = messageRepo;
     }
 
-
     /**
      * Finds the first action token available and resturns it
      * @param text 
@@ -50,6 +49,4 @@ export abstract class MessageProcessor<TMessageType> {
         }
         return null;
     }
-
-
 }

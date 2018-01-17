@@ -1,0 +1,56 @@
+{
+    "id": {
+        "user_id": "2238706842821354",
+        "application_id": "1788271627919179"
+    },
+    "action": "schedule_appointment",
+    "conversation": 0,
+    "opening": null,
+    "questions": 1,
+    "awaiting_answer": true,
+    "awaiting_confirmation": true,
+    "payload": {
+        "car_details": {
+            "car_make": "Ford"
+        }
+    }
+}
+
+{
+    "user_id": "2238706842821354",
+    "state": [
+        {
+            "application_id": "1788271627919179",
+            "action": "schedule_appointment",
+            "conversation": 0,
+            "opening": null,
+            "questions": 1,
+            "awaiting_answer": true,
+            "awaiting_confirmation": true,
+            "payload": {
+                "car_details": {
+                    "car_make": "Ford"
+                }
+            }
+        }
+    ]
+}
+
+{
+    "user_id": "2238706842821354",
+    "states": {
+        "1788271627919179": {
+            "action": "schedule_appointment",
+            "conversation": 0,
+            "opening": null,
+            "questions": 1,
+            "awaiting_answer": true,
+            "awaiting_confirmation": true,
+            "payload": {
+                "car_details": {
+                    "car_make": "Ford"
+                }
+            }
+        }
+    }
+}

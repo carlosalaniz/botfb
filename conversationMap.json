@@ -1,19 +1,19 @@
 {
-    "use-localization": false,
+    "use_localization": false,
     "locale": null,
-    "localization-strings-files": null,
+    "localization_strings_files": null,
     "actions": {
-        "schedule-appointment": {
+        "schedule_appointment": {
             "task": {
-                "uri": "https://www.carshop.com/api/v1/schedule-appointment",
+                "uri": "https://www.carshop.com/api/v1/schedule_appointment",
                 "method": "post"
             },
             "conversation": [
                 {
-                    "field": "car-details",
+                    "field": "car_details",
                     "opening": [
                         {
-                            "await-confirmation": false,
+                            "await_confirmation": false,
                             "messages": [
                                 [
                                     "You want to schedule an appointment!",
@@ -23,7 +23,7 @@
                             ]
                         },
                         {
-                            "await-confirmation": true,
+                            "await_confirmation": true,
                             "message": [
                                 "Are you ready?"
                             ],
@@ -31,7 +31,7 @@
                                 "continue": true,
                                 "exit": false,
                                 "reset": false,
-                                "skip-opening": false,
+                                "skip_opening": false,
                                 "reiterate": false,
                                 "message": {
                                     "messages": [
@@ -55,9 +55,9 @@
                     ],
                     "questions": [
                         {
-                            "field": "car-make",
-                            "await-anwser": true,
-                            "await-confirmation": true,
+                            "field": "car_make",
+                            "await_anwser": true,
+                            "await_confirmation": true,
                             "messages": [
                                 [
                                     "What is the your car make?"
@@ -65,19 +65,19 @@
                             ]
                         },
                         {
-                            "field": "car-model",
-                            "await-anwser": true,
-                            "await-confirmation": true,
+                            "field": "car_model",
+                            "await_anwser": true,
+                            "await_confirmation": true,
                             "message": [
                                 [
-                                    "What is the your car make?"
+                                    "What is the model of your car?"
                                 ]
                             ]
                         },
                         {
-                            "field": "car-year",
-                            "await-anwser": true,
-                            "await-confirmation": true,
+                            "field": "car_year",
+                            "await_anwser": true,
+                            "await_confirmation": true,
                             "message": [
                                 [
                                     "What year is your car?"
@@ -87,21 +87,21 @@
                     ],
                     "closing": [
                         {
-                            "await-confirmation": true,
+                            "await_confirmation": true,
                             "message": [
                                 [
                                     "Thank you, is this information correct?",
-                                    "%(car-details.car-make)s",
-                                    "%(car-details.car-make)s",
-                                    "%(car-details.car-make)s"
+                                    "%(car_details.car_make)s",
+                                    "%(car_details.car_make)s",
+                                    "%(car_details.car_make)s"
                                 ]
                             ],
                             "confirm": {
-                                "constinue": true
+                                "continue": true
                             },
                             "decline": {
-                                "reset": false,
-                                "skip-opening": false,
+                                "reset": true,
+                                "skip_opening": false,
                                 "message": {
                                     "messages": [
                                         [
@@ -140,10 +140,10 @@
                 {
                     "opening": [
                         {
-                            "await-confirmation": false,
+                            "await_confirmation": false,
                             "messages": [
                                 [
-                                    "How can I help you with?",
+                                    "How can I help you?",
                                     "I can provide you with information about different things :)",
                                     "Hours of operation, costs of service or the closest location!"
                                 ]
@@ -153,13 +153,13 @@
                 }
             ]
         },
-        "get-location": {
+        "get_location": {
             "task": {
-                "uri": "https://www.carshop.com/api/v1/get-location",
+                "uri": "https://www.carshop.com/api/v1/get_location",
                 "method": "get"
             },
             "response": {
-                "sucess": [
+                "success": [
                     {
                         "messages": [
                             [
