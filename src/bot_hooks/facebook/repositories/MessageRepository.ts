@@ -13,6 +13,7 @@ export class MessensageRepository
             body: message,
             json: true
         };
+        console.log("requesting!");
         await request(options, function (err: any, httpResponse: any, body: any) {
             console.log("completed!")
             if (err) {
