@@ -9,7 +9,6 @@ var config = require('config');
 
 export class FacebookWebHookController extends Controller {
     private processor: IEventsHandler;
-    private db: IPersistance;
     register(): void {
         this.app.get(this.routePrefix + '/',
             (req: any, res: any) => this.WebHookVerification(req, res));
@@ -23,6 +22,7 @@ export class FacebookWebHookController extends Controller {
      * @param res 
      */
     WebHookVerification(req: any, res: any) {
+        console.log(req);
         if (req.query['hub.verify_token'] === config.get("WebHookValidationToken")) {
             res.send(req.query['hub.challenge'])
         }
@@ -35,15 +35,15 @@ export class FacebookWebHookController extends Controller {
      * @param res 
      */
     PostCallback(req: any, res: any) {
-        try {
-            this.processor.handle(req.body);
-        } catch (err) {
+        this.processor.handleAsync(req.body).catch(function (err) {
+            res.sendStatus(500)
             console.log(err);
-        }
-        res.sendStatus(200)
+        }).then(function (result) {
+            res.sendStatus(200)
+        });
     }
 
-    constructor(app: any, routePrefix: string, db: IPersistance) {
+    constructor(app: any, routePrefix: string) {
         if (routePrefix == null)
             routePrefix = "/facebook-webhook"
         super(app, routePrefix);

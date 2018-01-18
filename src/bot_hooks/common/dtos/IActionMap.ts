@@ -1,3 +1,3 @@
 interface ITokenActionMap {
-    [propName: string]: string
+    [propName: string]: object | string
 }

@@ -1,0 +1,21 @@
+{
+    "agendar": {
+        "": "schedule_appointment",
+        "cita": "schedule_appointment"
+    },
+    "hola": {
+        "": "greet"
+    },
+    "que": {
+        "pedo": "greet",
+        "onda": "greet"
+    },
+    "adios": {
+        "": "say_goodbye"
+    },
+    "chinga": {
+        "tu": {
+            "madre": "say_goodbye"
+        }
+    }
+}

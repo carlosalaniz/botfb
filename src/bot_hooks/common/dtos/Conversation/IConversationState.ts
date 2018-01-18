@@ -1,9 +1,8 @@
-import { PassThrough } from "stream";
-
 interface IConversationState {
     user_id: string,
     states: {
         application_id: string
+        messageStatus: MessageStatusEnum,
         action: string,
         conversation?: number,
         opening?: number,
@@ -13,3 +12,4 @@ interface IConversationState {
         payload: Object
     }[]
 }
+

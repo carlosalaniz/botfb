@@ -1,3 +1,3 @@
 interface IMessageRepository<TMessageType> {
-    sendAsync(message: TMessageType): Promise<void>
+    sendAsync(message: TMessageType): any
 }

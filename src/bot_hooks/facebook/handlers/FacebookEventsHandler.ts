@@ -9,7 +9,7 @@ export class FacebookEventsHandler implements IEventsHandler {
         this.handlers = {};
     }
 
-    private processEntries(entities: IEntryDto[]) {
+    private async processEntriesAsync(entities: IEntryDto[]) {
         var entity: IEntryDto;
         for (var i = 0; i < entities.length; i++) {
             entity = entities[i];
@@ -17,7 +17,7 @@ export class FacebookEventsHandler implements IEventsHandler {
                 var eventType = WebhookEventsEnum[eventTypeKey];
                 if ((<any>entity.messaging[0])[eventType] != undefined) {
                     if (this.handlers[eventType] != undefined) {
-                        this.handlers[eventType].Handle(entity.messaging[0]);
+                        await this.handlers[eventType].HandleAsync(entity.messaging[0]);
                         break;
                     }
                     console.error("No handler was registered for event type: " + eventType);
@@ -31,11 +31,11 @@ export class FacebookEventsHandler implements IEventsHandler {
         this.handlers[eventType] = eventHandler;
     }
 
-    handle(message: any) {
+    async handleAsync(message: any) {
         //Do something with message
 
         //process entries
-        this.processEntries(message.entry);
+        await this.processEntriesAsync(message.entry);
     }
 
 }

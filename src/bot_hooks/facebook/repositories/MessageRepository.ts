@@ -19,10 +19,6 @@ export class MessensageRepository
             body: message,
             json: true
         };
-        await request(options, function (err: any, httpResponse: any, body: any) {
-            if (err) {
-                return console.error('failed:', err);
-            }
-        })
+        return request(options)
     }
 }

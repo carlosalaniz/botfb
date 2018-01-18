@@ -5,108 +5,153 @@
     "actions": {
         "schedule_appointment": {
             "task": {
-                "uri": "https://www.carshop.com/api/v1/schedule_appointment",
-                "method": "post"
+                "uri": "http://localhost:5000/test-controller/schedule-appointment",
+                "method": "POST"
             },
             "conversation": [
                 {
-                    "field": "car_details",
+                    "field": "appointment",
                     "opening": [
                         {
-                            "await_confirmation": false,
+                            "await_confirmation": true,
                             "messages": [
                                 [
-                                    "You want to schedule an appointment!",
-                                    "Perfect!",
-                                    "Let's start by getting some information about your car."
+                                    "Que onda morr@ ✌",
+                                    "veo que quieres una cita",
+                                    "dame unos datos primero no?👀"
                                 ]
-                            ]
-                        },
-                        {
-                            "await_confirmation": true,
-                            "message": [
-                                "Are you ready?"
+                            ],
+                            "quick_replies": [
+                                {
+                                    "content_type": "text",
+                                    "title": "Por su pollo! 🐣",
+                                    "payload": "Si"
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Nanay. 😡",
+                                    "payload": "No"
+                                }
                             ],
                             "confirm": {
                                 "continue": true,
-                                "exit": false,
-                                "reset": false,
-                                "skip_opening": false,
-                                "reiterate": false,
                                 "message": {
-                                    "messages": [
-                                        [
-                                            "Great!"
-                                        ]
-                                    ]
+                                    "messages": "Ya estufas, aver vamos a empezar morr@ 😀"
                                 }
                             },
                             "decline": {
                                 "exit": true,
                                 "message": {
-                                    "messages": [
-                                        [
-                                            "Ok, I'm ready when you are! just let me know!"
-                                        ]
-                                    ]
+                                    "messages": "Sobres mijo, ahi a la otra, pues. 🖕"
                                 }
                             }
                         }
                     ],
                     "questions": [
                         {
-                            "field": "car_make",
-                            "await_anwser": true,
-                            "await_confirmation": true,
+                            "field": "patient_name",
+                            "await_response": true,
                             "messages": [
                                 [
-                                    "What is the your car make?"
+                                    "A ver compadre, primeramente",
+                                    "cual es su nombre",
+                                    "osea como se llama usted?"
                                 ]
-                            ]
+                            ],
+                            "field_confirmation_messages": {
+                                "await_confirmation": true,
+                                "messages": [
+                                    [
+                                        "%(appointment.patient_name)s es su nombere?"
+                                    ]
+                                ],
+                                "quick_replies": [
+                                    {
+                                        "content_type": "text",
+                                        "title": "si, %(appointment.patient_name)s es mi nombere🐣",
+                                        "payload": "Si"
+                                    },
+                                    {
+                                        "content_type": "text",
+                                        "title": "NO!. 😡",
+                                        "payload": "No"
+                                    }
+                                ],
+                                "confirm": {
+                                    "continue": true,
+                                    "message": {
+                                        "messages": [
+                                            [
+                                                "Ya estufas %(appointment.patient_name)s"
+                                            ]
+                                        ]
+                                    }
+                                },
+                                "decline": {
+                                    "reiterate": true,
+                                    "message": {
+                                        "messages": [
+                                            [
+                                                "Putamadre... bueno, a ver."
+                                            ]
+                                        ]
+                                    }
+                                }
+                            }
                         },
                         {
-                            "field": "car_model",
-                            "await_anwser": true,
-                            "await_confirmation": true,
-                            "message": [
+                            "field": "patient_sex",
+                            "await_response": true,
+                            "messages": [
                                 [
-                                    "What is the model of your car?"
+                                    "Y ahora, a ver",
+                                    "eres bato o vieja?"
                                 ]
-                            ]
-                        },
-                        {
-                            "field": "car_year",
-                            "await_anwser": true,
-                            "await_confirmation": true,
-                            "message": [
-                                [
-                                    "What year is your car?"
-                                ]
+                            ],
+                            "quick_replies": [
+                                {
+                                    "content_type": "text",
+                                    "title": "Vato 🍆",
+                                    "payload": "Hombre"
+                                },
+                                {
+                                    "content_type": "text",
+                                    "title": "Morra 🍑",
+                                    "payload": "Mujer"
+                                }
                             ]
                         }
                     ],
                     "closing": [
                         {
                             "await_confirmation": true,
-                            "message": [
+                            "messages": [
                                 [
-                                    "Thank you, is this information correct?",
-                                    "%(car_details.car_make)s",
-                                    "%(car_details.car_make)s",
-                                    "%(car_details.car_make)s"
+                                    "esta esto correcto?",
+                                    "Te llamas %(appointment.patient_name)s",
+                                    "Y eres %(patient_sex)",
+                                    "veeda?"
                                 ]
                             ],
                             "confirm": {
-                                "continue": true
-                            },
-                            "decline": {
-                                "reset": true,
-                                "skip_opening": false,
+                                "continue": true,
                                 "message": {
                                     "messages": [
                                         [
-                                            "Sorry about that.",
-                                            "Let's try this again!"
+                                            "Ya quedo puto, ahi nos wachamos krnal ✌️"
+                                        ]
+                                    ]
+                                }
+                            },
+                            "decline": {
+                                "reset": true,
+                                "skip_opening": true,
+                                "message": {
+                                    "messages": [
+                                        [
+                                            "Putamadre... bueno, a ver.",
+                                            "va de nuez",
+                                            "conste que te pregunte chingos de veces puto ✊🏿"
                                         ]
                                     ]
                                 }
@@ -114,62 +159,65 @@
                         }
                     ]
                 }
-            ]
-        },
-        "greetings": {
-            "task": null,
-            "conversation": [
-                {
-                    "opening": [
-                        {
-                            "messages": [
-                                [
-                                    "hello!",
-                                    "howdy!",
-                                    "how can I help?"
-                                ]
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        "help": {
-            "task": null,
-            "conversation": [
-                {
-                    "opening": [
-                        {
-                            "await_confirmation": false,
-                            "messages": [
-                                [
-                                    "How can I help you?",
-                                    "I can provide you with information about different things :)",
-                                    "Hours of operation, costs of service or the closest location!"
-                                ]
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        "get_location": {
-            "task": {
-                "uri": "https://www.carshop.com/api/v1/get_location",
-                "method": "get"
-            },
+            ],
             "response": {
-                "success": [
-                    {
-                        "messages": [
-                            [
-                                "Our shop is located at:",
-                                "%(response.body.address)s"
-                            ]
+                "success": {
+                    "messages": [
+                        [
+                            "Pues ya quedo."
                         ]
-                    }
-                ]
+                    ]
+                },
+                "error": {
+                    "messages": [
+                        [
+                            "Tenemos un problema "
+                        ]
+                    ]
+                }
             }
+        },
+        "greet": {
+            "conversation": [
+                {
+                    "opening": [
+                        {
+                            "messages": [
+                                [
+                                    "Os Kiubole que cua, compa"
+                                ],
+                                [
+                                    "Que Pachuca por Toluca?"
+                                ],
+                                [
+                                    "Que hongo,jorongo,tepetongo,morongo?"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "say_goodbye": {
+            "conversation": [
+                {
+                    "opening": [
+                        {
+                            "messages": [
+                                [
+                                    "Como dijo el Santo Papa, chin, chin Jalapa! "
+                                ],
+                                [
+                                    "Al raton vaquero!"
+                                ],
+                                [
+                                    "Si tienen lavadora ahí lavemos!"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     }
 }

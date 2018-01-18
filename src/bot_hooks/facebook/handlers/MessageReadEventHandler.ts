@@ -5,7 +5,7 @@ import { MessensageRepository } from '../repositories/MessageRepository';
 
 export class MessageReadEventHandler implements IEventHandler<IReadDto> {
     private repo: MessensageRepository;
-    Handle(data: IReadDto) {
+    async HandleAsync(data: IReadDto) {
         console.log("Message Read.")
     }
     constructor() {

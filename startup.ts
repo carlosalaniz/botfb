@@ -22,7 +22,7 @@ app.use(bodyParser.json())
 new HomeController(app)
 	.register();
 
-new FacebookWebHookController(app, "/facebook-webhook", db)
+new FacebookWebHookController(app, "/facebook-webhook")
 	.register();
 
 // Spin up the server
