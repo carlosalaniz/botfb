@@ -21,9 +21,11 @@ export class MessensageRepository
             body: message[0],
             json: true
         };
-        return request(options).then((response: any) => (function (response: any, message: IMessageDto[], callback: any) {
-            console.log(message.shift(), " Processed.")
-            return callback(message);
-        })(response, <IMessageDto[]>message, this.sendAsync))
+        return request(options,
+            (error: any, response: any, body: any) => (function (error: any, response: any, body: any, message: IMessageDto[], callback: any) {
+                console.log(message.shift(), " Processed.")
+                return callback(message);
+            })(error, response, body, <IMessageDto[]>message, this.sendAsync)
+        );
     }
 }
