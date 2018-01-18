@@ -2,17 +2,16 @@ import { json } from "web-request";
 import { ServiceManager } from "../../../../config/ServiceManager";
 var tokenMap = require("../../../../config/ActionMap.json");
 var conversation = require("../../../../config/conversationMap.json");
-
-
-export abstract class MessageProcessor<TMessageType> {
-    abstract createMessageFromString(stringMessage: string, message: IMessageDto): TMessageType;
+var config = require('config');
+interface IMessageProcessor {
+    proccessAsync(data: IMessageDto): Promise<void>;
+}
+export abstract class MessageProcessor<TMessageType> implements IMessageProcessor {
+    protected abstract createMessageFromString(stringMessage: string, recipient: { id: "string" }): TMessageType;
 
     protected conversationDefinition: IConversationDefinition;
     protected tokenActionMap: ITokenActionMap;
     protected messageRepo: IMessageRepository<any>;
-    private CMFS(stringMessage: string, message: IMessageDto): TMessageType {
-        return this.createMessageFromString(stringMessage, message);
-    };
 
     constructor(
     ) {
@@ -53,11 +52,72 @@ export abstract class MessageProcessor<TMessageType> {
     protected getAction(message: IMessageDto): IAction | null | string {
         if (message.message != null && message.message.text != null) {
             var actionKey = this.searchForTokens(message.message.text, this.tokenActionMap);
-            console.log(actionKey);
             if (actionKey != null) {
                 return actionKey;
             }
         }
         return null;
+    }
+
+    
+
+
+    async proccessAsync(data: IMessageDto) {
+        ServiceManager.PersistanceService
+        var action = this.getAction(data);
+        var message: IMessageDto = {
+            sender: {
+                id: config.get("FacebookPageId")
+            },
+            recipient: data.sender,
+            message: {
+                text: <string>action
+            }
+        };
+        if (action != null) {
+            var messages = [
+                message,
+                {
+                    sender: {
+                        id: config.get("FacebookPageId")
+                    },
+                    recipient: data.sender,
+                    message: {
+                        text: "1"
+                    }
+                },
+                {
+                    sender: {
+                        id: config.get("FacebookPageId")
+                    },
+                    recipient: data.sender,
+                    message: {
+                        text: "2"
+                    }
+                },
+                {
+                    sender: {
+                        id: config.get("FacebookPageId")
+                    },
+                    recipient: data.sender,
+                    message: {
+                        text: "3"
+                    }
+                },
+                {
+                    sender: {
+                        id: config.get("FacebookPageId")
+                    },
+                    recipient: data.sender,
+                    message: {
+                        text: "4"
+                    }
+                }
+            ]
+            await this.messageRepo.sendAsync(messages)
+        } else {
+            message.message.text = "hi!";
+            await this.messageRepo.sendAsync(message)
+        }
     }
 }
