@@ -22,10 +22,10 @@ export class MessensageRepository
             json: true
         };
         return request(options,
-            (error: any, response: any, body: any) => (function (error: any, response: any, body: any, message: IMessageDto[], callback: any) {
+            (error: any, response: any, body: any) => (async function (error: any, response: any, body: any, message: IMessageDto[], repo: IMessageRepository<IMessageDto>) {
                 console.log(message.shift(), " Processed.")
-                return callback(message);
-            })(error, response, body, <IMessageDto[]>message, this.sendAsync)
+                return await repo.sendAsync(message);
+            })(error, response, body, <IMessageDto[]>message, this)
         );
     }
 }
