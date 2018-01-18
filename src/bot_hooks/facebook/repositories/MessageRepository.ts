@@ -11,14 +11,19 @@ export class MessensageRepository
         var baseUri = config.get("BotHooks.Facebook.MessagerMessages");
         super(baseUri);
     }
-    async sendAsync(message: IMessageDto) {
+    async sendAsync(message: IMessageDto | IMessageDto[]) {
+        if (!Array.isArray(message)) message = [message];
+        if (message.length == 0) return;
         var options = {
             uri: this.baseUri,
             qs: { access_token: this.pageAccessToken },
             method: 'POST',
-            body: message,
+            body: message[0],
             json: true
         };
-        return request(options)
+        return request(options).then((response: any) => (function (response: any, message: IMessageDto[], callback: any) {
+            console.log(message.shift(), " Processed.")
+            return callback(message);
+        })(response, <IMessageDto[]>message, this.sendAsync))
     }
 }

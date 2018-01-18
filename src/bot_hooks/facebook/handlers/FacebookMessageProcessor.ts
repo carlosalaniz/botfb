@@ -21,11 +21,50 @@ export class FacebookMessageProcessor extends MessageProcessor<IMessageDto>{
             },
             recipient: data.sender,
             message: {
-                text: JSON.stringify(action)
+                text: <string>action
             }
         };
         if (action != null) {
-            await this.messageRepo.sendAsync(message)
+            var messages = [
+                message,
+                {
+                    sender: {
+                        id: config.get("FacebookPageId")
+                    },
+                    recipient: data.sender,
+                    message: {
+                        text: "1"
+                    }
+                },
+                {
+                    sender: {
+                        id: config.get("FacebookPageId")
+                    },
+                    recipient: data.sender,
+                    message: {
+                        text: "2"
+                    }
+                },
+                {
+                    sender: {
+                        id: config.get("FacebookPageId")
+                    },
+                    recipient: data.sender,
+                    message: {
+                        text: "3"
+                    }
+                },
+                {
+                    sender: {
+                        id: config.get("FacebookPageId")
+                    },
+                    recipient: data.sender,
+                    message: {
+                        text: "4"
+                    }
+                }
+            ]
+            await this.messageRepo.sendAsync(messages)
         } else {
             message.message.text = "hi!";
             await this.messageRepo.sendAsync(message)

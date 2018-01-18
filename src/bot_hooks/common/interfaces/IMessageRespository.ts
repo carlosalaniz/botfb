@@ -1,3 +1,3 @@
 interface IMessageRepository<TMessageType> {
-    sendAsync(message: TMessageType): any
+    sendAsync(message: TMessageType | TMessageType[]): any
 }
