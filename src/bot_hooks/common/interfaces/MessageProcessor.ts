@@ -102,7 +102,7 @@ export abstract class MessageProcessor<TMessageType> implements IMessageProcesso
                 if (actionMessageTexts) messageTexts = actionMessageTexts;
             }
         }
-        var messages = this.createMessageArrayFromStringArray(messageTexts, data.recipient.id, data.sender.id);
+        var messages = this.createMessageArrayFromStringArray(messageTexts, data.sender.id, data.recipient.id);
         await this.messageRepo.sendAsync(messages);
     }
 }
