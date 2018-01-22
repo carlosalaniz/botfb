@@ -27,13 +27,10 @@ export abstract class MessageProcessor<TMessageType> implements IMessageProcesso
     private searchForTokens(text: string, map: ITokenActionMap, match: boolean = false): string | null {
         var split = text.split(" ");
         if (split.length == 0) split = [text];
-        console.log(split);
         for (var i = 0; i < split.length; i++) {
             var token = split[i].toLowerCase();
-            console.log(map[token]);
             if (map[token] != null) {
                 if (typeof map[token] == "string") {
-                    console.log("returning")
                     return <string>map[token];
                 } else if (typeof map[token] == "object") {
                     return this.searchForTokens(text.replace(token, ""), <ITokenActionMap>map[token], true)
@@ -86,7 +83,7 @@ export abstract class MessageProcessor<TMessageType> implements IMessageProcesso
     private createMessageArrayFromStringArray(messages: string[], recipientId: number | string, senderId: number | string): TMessageType[] {
         var TMessageArr = [];
         for (var i = 0; i < messages.length; i++)
-            TMessageArr.push(this.createMessageFromString(messages[0], recipientId, senderId));
+            TMessageArr.push(this.createMessageFromString(messages[i], recipientId, senderId));
         return TMessageArr;
     }
 
@@ -98,7 +95,7 @@ export abstract class MessageProcessor<TMessageType> implements IMessageProcesso
         if (actionKey != null) {
             var action = this.getAction(actionKey);
             if (action) {
-                var actionMessageTexts = this.GetMessages(action, { opening: 0 });
+                var actionMessageTexts = this.GetMessages(action, { opening: 0, conversation:0});
                 if (actionMessageTexts) messageTexts = actionMessageTexts;
             }
         }
