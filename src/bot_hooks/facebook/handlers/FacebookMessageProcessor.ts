@@ -4,21 +4,26 @@ import { ServiceManager } from "../../../../config/ServiceManager";
 
 var config = require('config');
 export class FacebookMessageProcessor extends MessageProcessor<IMessageDto>{
-    persistance: IPersistance;
-    constructor() {
-        super();
-        this.persistance = ServiceManager.PersistanceService;
-    }
-    protected createMessageFromString(stringMessage: string, recipient: { id: "string" }): IMessageDto {
+    protected createMessageFromString(stringMessage: string, recipientId: string | number, senderId: string | number): IMessageDto {
         var message: IMessageDto = {
             sender: {
                 id: config.get("FacebookPageId")
             },
-            recipient: recipient,
+            recipient: {
+                id: recipientId.toString()
+            },
             message: {
                 text: stringMessage
             }
         };
         return message;
     }
+
+
+    persistance: IPersistance;
+    constructor() {
+        super();
+        this.persistance = ServiceManager.PersistanceService;
+    }
+
 }
