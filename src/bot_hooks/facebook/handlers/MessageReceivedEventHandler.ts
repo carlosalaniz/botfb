@@ -3,12 +3,12 @@ import * as WebRequest from 'web-request';
 import { MessensageRepository } from '../repositories/MessageRepository';
 import { ServiceManager } from '../../../../config/ServiceManager';
 
-export class MessageReceivedEventHandler implements IEventHandler<IMessageDto> {
+export class MessageReceivedEventHandler implements IEventHandler<IMessageEventDto> {
     processor: FacebookMessageProcessor;
     private repo: MessensageRepository;
     private persistance: IPersistance = ServiceManager.PersistanceService;
 
-    async HandleAsync(data: IMessageDto) {
+    async HandleAsync(data: IMessageEventDto) {
         // console.log(data);
         try{
             await this.processor.proccessAsync(data);

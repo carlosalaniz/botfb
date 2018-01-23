@@ -4,11 +4,11 @@ var tokenMap = require("../../../../config/ActionMap.json");
 var conversation = require("../../../../config/conversationMap.json");
 var config = require('config');
 interface IMessageProcessor {
-    proccessAsync(data: IMessageDto): Promise<void>;
+    proccessAsync(data: IMessageEventDto): Promise<void>;
 }
 export abstract class MessageProcessor<TMessageType> implements IMessageProcessor {
-    protected abstract createMessageFromString(stringMessage: string, recipientId: number | string, senderId: number | string): TMessageType;
-
+    protected abstract createMessageFromString(stringMessage: string, recipientId: string): TMessageType;
+    protected abstract addQuickReplies(message: TMessageType, quickReplies: any[]): void;
     protected conversationDefinition: IConversationDefinition;
     protected tokenActionMap: ITokenActionMap;
     protected messageRepo: IMessageRepository<any>;
@@ -46,7 +46,7 @@ export abstract class MessageProcessor<TMessageType> implements IMessageProcesso
      * parses a message and returns it's action
      * @param message 
      */
-    protected getActionKey(message: IMessageDto): string | null {
+    protected getActionKey(message: IMessageEventDto): string | null {
         if (message.message != null && message.message.text != null) {
             var actionKey = this.searchForTokens(message.message.text, this.tokenActionMap);
             if (actionKey != null) {
@@ -61,45 +61,48 @@ export abstract class MessageProcessor<TMessageType> implements IMessageProcesso
         if (action == null) return null;
         return action;
     }
-    private GetMessages(action: IAction, conversationState: IConversationState): string[] | null {
+    private GetMessage(action: IAction, conversationState: IConversationState): IMessage | null {
         if (conversationState.conversation != null) {
             var conversationIdx = conversationState.conversation;
             var conversation = action.conversation[conversationIdx];
-            var messages: string[][] | undefined;
+            var messages: IMessage | undefined;
             if (conversationState.opening !== undefined && conversation.opening != undefined)
-                messages = conversation.opening[conversationState.opening].messages;
+                messages = conversation.opening[conversationState.opening];
             else if (conversationState.questions !== undefined && conversation.questions != undefined) {
-                messages = conversation.questions[conversationState.questions].messages;
+                messages = conversation.questions[conversationState.questions];
             }
             else if (conversationState.closing !== undefined && conversation.closing != undefined) {
-                messages = conversation.closing[conversationState.closing].messages;
+                messages = conversation.closing[conversationState.closing];
             }
             if (messages != undefined) {
-                return messages[Math.floor(Math.random() * messages.length)];
+                return messages;
             }
         }
         return null;
     }
-    private createMessageArrayFromStringArray(messages: string[], recipientId: number | string, senderId: number | string): TMessageType[] {
+    private createMessageArrayFromStringArray(messages: string[], recipientId: string, senderId: number | string): TMessageType[] {
         var TMessageArr = [];
         for (var i = 0; i < messages.length; i++)
-            TMessageArr.push(this.createMessageFromString(messages[i], recipientId, senderId));
+            TMessageArr.push(this.createMessageFromString(messages[i], recipientId));
         return TMessageArr;
     }
 
-    async proccessAsync(data: IMessageDto) {
+    async proccessAsync(data: IMessageEventDto) {
         ServiceManager.PersistanceService
         var actionKey = this.getActionKey(data);
 
         var messageTexts = ["not found"];
+        var quickReplies = [];
         if (actionKey != null) {
             var action = this.getAction(actionKey);
             if (action) {
-                var actionMessageTexts = this.GetMessages(action, { opening: 0, conversation:0});
-                if (actionMessageTexts) messageTexts = actionMessageTexts;
+                var currentMessage = this.GetMessage(action, { opening: 0, conversation: 0 });
+                if (currentMessage && currentMessage.messages) messageTexts = currentMessage.messages[Math.floor(Math.random() * (currentMessage.messages.length + 1))];
+                if (currentMessage && currentMessage.quick_replies) quickReplies = currentMessage.quick_replies;
             }
         }
         var messages = this.createMessageArrayFromStringArray(messageTexts, data.sender.id, data.recipient.id);
+        this.addQuickReplies(messages[messages.length], quickReplies);_
         await this.messageRepo.sendAsync(messages);
     }
 }

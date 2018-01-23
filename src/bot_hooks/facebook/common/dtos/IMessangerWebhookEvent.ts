@@ -7,10 +7,10 @@ interface IMessangerWebhookEventDto {
 interface IEntryDto {
     id: string,
     time: number,
-    messaging: IMessagingDto[]
+    messaging: IMessagingEventDto[]
 }
 
-interface IMessagingDto {
+interface IMessagingEventDto {
     sender: {
         id: string
     },
@@ -24,7 +24,7 @@ interface IMessagingDto {
 }
 
 /*Webhook Messages-READ START*/
-interface IReadDto extends IMessagingDto {
+interface IReadDto extends IMessagingEventDto {
     read: {
         watermark: number,
         seq: number
@@ -34,33 +34,41 @@ interface IReadDto extends IMessagingDto {
 
 
 /*Webhook Messages START*/
-interface IMessageDto extends IMessagingDto {
+interface IMessageEventDto extends IMessagingEventDto {
     message: {
         text?: string,
-        attachments?: IMessageAttachmentDto[]
-        attachment?: IMessageAttachmentDto,
+        attachments?: IMessageAttachmentDto[] | IMessageFallbackAttachmentDto[]
         nlp?: {
             entities: any
         },
         mid?: string,
         seq?: number,
-        quick_reply?: IQuickReplyDto
+        quick_reply?: IQuickReplyRecievedDto | string
     }
 }
+
 interface IMessageAttachmentDto {
-    type: string,
-    payload: {
-        url: string,
-        is_reusable?: boolean
-    }
-    fallback?: {
-        title: string,
-        url: string,
-        payload: null,
-        type: string
+    type: string, //audio, fallback, file, image, location or video
+    payload: IMultimediaPayload | ILocationPayload
+}
+
+interface IMessageFallbackAttachmentDto extends IMessageAttachmentDto {
+    title: string,
+    url: string
+}
+
+interface IMultimediaPayload {
+    url: string
+}
+
+interface ILocationPayload {
+    coordinates: {
+        lat: number;
+        long: number;
     }
 }
-interface IQuickReplyDto {
+
+interface IQuickReplyRecievedDto {
     payload: {
         //image, audio, video or file payload
         url?: string,
@@ -68,11 +76,11 @@ interface IQuickReplyDto {
             lat: number,
             long: number
         }
-    },
+    };
 }
 
 /*Webhook Messages-DELIVERIES START*/
-interface IMessageDeliveryEvent extends IMessagingDto {
+interface IMessageDeliveryEvent extends IMessagingEventDto {
     delivery: {
         mids: string[],
         watermark: number,

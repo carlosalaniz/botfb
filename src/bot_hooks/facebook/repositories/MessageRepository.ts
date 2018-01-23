@@ -5,13 +5,13 @@ import { BaseRepository } from './BaseRepository';
 
 export class MessensageRepository
     extends BaseRepository
-    implements IMessageRepository<IMessageDto> {
+    implements IMessageRepository<IMessageEventDto> {
     baseUri: string;
     constructor() {
         var baseUri = config.get("BotHooks.Facebook.MessagerMessages");
         super(baseUri);
     }
-    async sendAsync(message: IMessageDto | IMessageDto[]) {
+    async sendAsync(message: IMessageEventDto | IMessageEventDto[]) {
         if (!Array.isArray(message)) message = [message];
         if (message.length == 0) return;
         var options = {
@@ -22,10 +22,10 @@ export class MessensageRepository
             json: true
         };
         return request(options,
-            (error: any, response: any, body: any) => (async function (error: any, response: any, body: any, message: IMessageDto[], repo: IMessageRepository<IMessageDto>) {
+            (error: any, response: any, body: any) => (async function (error: any, response: any, body: any, message: IMessageEventDto[], repo: IMessageRepository<IMessageEventDto>) {
                 console.log(message.shift(), " Processed.")
                 return await repo.sendAsync(message);
-            })(error, response, body, <IMessageDto[]>message, this)
+            })(error, response, body, <IMessageEventDto[]>message, this)
         );
     }
 }

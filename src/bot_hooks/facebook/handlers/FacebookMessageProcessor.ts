@@ -3,12 +3,9 @@ import { ServiceManager } from "../../../../config/ServiceManager";
 
 
 var config = require('config');
-export class FacebookMessageProcessor extends MessageProcessor<IMessageDto>{
-    protected createMessageFromString(stringMessage: string, recipientId: string | number, senderId: string | number): IMessageDto {
-        var message: IMessageDto = {
-            sender: {
-                id: config.get("FacebookPageId")
-            },
+export class FacebookMessageProcessor extends MessageProcessor<ISendMessageDto<any>>{
+    protected createMessageFromString(stringMessage: string, recipientId: string): ISendMessageDto<ITextMessageDto> {
+        var message: ISendMessageDto<ITextMessageDto> = {
             recipient: {
                 id: recipientId.toString()
             },
@@ -19,7 +16,10 @@ export class FacebookMessageProcessor extends MessageProcessor<IMessageDto>{
         return message;
     }
 
-
+    addQuickReplies(message: object & (ISendMessageDto<ITextMessageDto> | ISendMessageDto<IAttachmentMessageDto>), quickReplies: IQuickReplySendDto[]) {
+        message.message.quick_replies = quickReplies;
+    }
+    
     persistance: IPersistance;
     constructor() {
         super();

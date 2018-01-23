@@ -9,5 +9,5 @@ export class ServiceManager {
             }
             return <IPersistance>(<any>global)["persistance"];
         })();
-    static MessageRepository: IMessageRepository<IMessageDto> = new MessensageRepository()
+    static MessageRepository: IMessageRepository<IMessageEventDto> = new MessensageRepository()
 }
