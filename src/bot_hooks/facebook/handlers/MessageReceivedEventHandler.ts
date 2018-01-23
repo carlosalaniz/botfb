@@ -9,27 +9,11 @@ export class MessageReceivedEventHandler implements IEventHandler<IMessageEventD
     private persistance: IPersistance = ServiceManager.PersistanceService;
 
     async HandleAsync(data: IMessageEventDto) {
-        // console.log(data);
         try{
             await this.processor.proccessAsync(data);
         }catch(e){
             console.error(e);
         }
-        // var a = this.persistance.getAsync("key")
-        // var message: IMessageDto = {
-        //     sender: data.recipient,
-        //     recipient: data.sender,
-        //     message: {
-        //         text: "ECHO: " + data.message.text
-        //     }
-        // };
-        // try {
-        //     var httpResponse = await this.repo.sendAsync(message);
-        //     console.log("Message recieved handled");
-        // }
-        // catch (err) {
-        //     console.error("error! ", err)
-        // };
     }
     constructor() {
         this.processor = new FacebookMessageProcessor
