@@ -96,13 +96,15 @@ export abstract class MessageProcessor<TMessageType> implements IMessageProcesso
         if (actionKey != null) {
             var action = this.getAction(actionKey);
             if (action) {
-                var currentMessage = this.GetMessage(action, { opening: 0, conversation: 0 });
-                if (currentMessage && currentMessage.messages) messageTexts = currentMessage.messages[Math.floor(Math.random() * (currentMessage.messages.length + 1))];
-                if (currentMessage && currentMessage.quick_replies) quickReplies = currentMessage.quick_replies;
+              var currentMessage = this.GetMessage(action, { opening: 0, conversation: 0 });
+              if (currentMessage && currentMessage.messages) messageTexts = currentMessage.messages[Math.floor(Math.random() * (currentMessage.messages.length))];
+              console.log(currentMessage.messages);
+              console.log(messageTexts);  
+              if (currentMessage && currentMessage.quick_replies) quickReplies = currentMessage.quick_replies;
             }
         }
         var messages = this.createMessageArrayFromStringArray(messageTexts, data.sender.id, data.recipient.id);
-        this.addQuickReplies(messages[messages.length], quickReplies);_
+        this.addQuickReplies(messages[messages.length - 1], quickReplies);
         await this.messageRepo.sendAsync(messages);
     }
 }

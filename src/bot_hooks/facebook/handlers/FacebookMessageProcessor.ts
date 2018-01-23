@@ -17,7 +17,8 @@ export class FacebookMessageProcessor extends MessageProcessor<ISendMessageDto<a
     }
 
     addQuickReplies(message: object & (ISendMessageDto<ITextMessageDto> | ISendMessageDto<IAttachmentMessageDto>), quickReplies: IQuickReplySendDto[]) {
-        message.message.quick_replies = quickReplies;
+      if(quickReplies.length === 0) return;
+      message.message.quick_replies = quickReplies;
     }
     
     persistance: IPersistance;
