@@ -96,7 +96,7 @@ export abstract class MessageProcessor<TMessageType> implements IMessageProcesso
         if (actionKey != null) {
             var action = this.getAction(actionKey);
             if (action) {
-              var currentMessage = this.GetMessage(action, { opening: 0, conversation: 0 });
+              var currentMessage = this.GetMessage(action, { application_id : "", opening: 0, conversation: 0 });
               if (currentMessage && currentMessage.messages) messageTexts = currentMessage.messages[Math.floor(Math.random() * (currentMessage.messages.length))];
               if (currentMessage && currentMessage.quick_replies) quickReplies = currentMessage.quick_replies;
             }

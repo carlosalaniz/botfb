@@ -1,9 +1,12 @@
 interface IUserConversationStates {
     user_id: string,
-    states: IConversationState[]
+    states: {
+        [application_id: string]: IConversationState
+    }
 }
+
 interface IConversationState {
-    application_id?: string
+    application_id: string
     messageStatus?: MessageStatusEnum,
     action?: string,
     conversation?: number,
