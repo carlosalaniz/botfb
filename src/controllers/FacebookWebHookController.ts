@@ -3,6 +3,7 @@ import { FacebookEventsHandler } from "../bot_hooks/facebook/handlers/FacebookEv
 import { WebhookEventsEnum } from "../bot_hooks/facebook/common/enums/WebhookEventsEnum";
 import { MessageReceivedEventHandler } from "../bot_hooks/facebook/handlers/MessageReceivedEventHandler";
 import { MessageReadEventHandler } from "../bot_hooks/facebook/handlers/MessageReadEventHandler";
+import { ServiceManager } from "../../config/ServiceManager";
 
 const request = require('request');
 var config = require('config');

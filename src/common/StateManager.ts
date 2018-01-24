@@ -1,6 +1,6 @@
 import { ServiceManager } from "../../config/ServiceManager";
 
-class StateManager implements IStateManager {
+export class StateManager implements IStateManager {
     persistance: IPersistance;
     constructor() {
         this.persistance = ServiceManager.PersistanceService;

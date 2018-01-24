@@ -9,9 +9,20 @@ export class MessageReceivedEventHandler implements IEventHandler<IMessageEventD
     private persistance: IPersistance = ServiceManager.PersistanceService;
 
     async HandleAsync(data: IMessageEventDto) {
-        try{
+        try {
+            var state = await ServiceManager.StateManager.getCurrentStateAsync(data.sender.id, data.recipient.id);
+            console.log(state);
+            var rSet = await ServiceManager.StateManager.setUserStateAsync(data.sender.id, data.recipient.id,
+                {
+                    application_id: data.recipient.id,
+                    messageStatus: MessageStatusEnum.message_recieved
+                }
+            )
+            console.log(rSet);
+            state = await ServiceManager.StateManager.getCurrentStateAsync(data.sender.id, data.recipient.id);
+            console.log(state);
             await this.processor.proccessAsync(data);
-        }catch(e){
+        } catch (e) {
             console.error(e);
         }
     }
