@@ -3,5 +3,6 @@ export enum MessageStatusEnum {
     message_recieved = "message_recieved",
     message_read = "message_read",
     awaiting_response = "awaiting_response",
+    message_delivered = "message_delivered",    
     awaiting_confirmation = "awaiting_confirmation",
 }

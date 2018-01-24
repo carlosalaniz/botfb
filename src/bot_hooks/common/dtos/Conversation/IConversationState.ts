@@ -1,3 +1,5 @@
+import { MessageStatusEnum } from "./MessageStatusEnum";
+
 interface IUserConversationStates {
     user_id: string,
     states: {

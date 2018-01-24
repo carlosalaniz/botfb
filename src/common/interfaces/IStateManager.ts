@@ -5,9 +5,9 @@ enum confimationResponse {
     decline = "no",
 }
 
-interface IStateManager {
+export interface IStateManager {
     persistance: IPersistance;
     getCurrentStateStatusAsync(userId: string, appId: string | undefined): Promise<MessageStatusEnum | null>;
-    getCurrentStateAsync(userId: string, appId: string | undefined): Promise<IConversationState | null>;
+    getCurrentStateAsync(userId: string, appId: string | undefined): Promise<IConversationState>;
     setUserStateAsync(userId: string, appId: string, state: IConversationState): Promise<void>;
 }
