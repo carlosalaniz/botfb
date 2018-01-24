@@ -1,4 +1,4 @@
-enum MessageStatusEnum {
+export enum MessageStatusEnum {
     message_sent = "message_sent",
     message_recieved = "message_recieved",
     message_read = "message_read",

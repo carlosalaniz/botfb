@@ -2,6 +2,7 @@ import { FacebookMessageProcessor } from './FacebookMessageProcessor';
 import * as WebRequest from 'web-request';
 import { MessensageRepository } from '../repositories/MessageRepository';
 import { ServiceManager } from '../../../../config/ServiceManager';
+import { MessageStatusEnum } from '../../common/dtos/Conversation/MessageStatusEnum';
 
 export class MessageReceivedEventHandler implements IEventHandler<IMessageEventDto> {
     processor: FacebookMessageProcessor;
