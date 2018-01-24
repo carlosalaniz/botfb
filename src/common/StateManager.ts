@@ -1,4 +1,6 @@
 import { ServiceManager } from "../../config/ServiceManager";
+import { MessageStatusEnum } from "../bot_hooks/common/dtos/Conversation/MessageStatusEnum";
+import { IStateManager } from "./interfaces/IStateManager";
 
 export class StateManager implements IStateManager {
     persistance: IPersistance;
@@ -12,7 +14,7 @@ export class StateManager implements IStateManager {
         }
         return null;
     }
-    async getCurrentStateAsync(userId: string, appId: string): Promise<IConversationState | null> {
+    async getCurrentStateAsync(userId: string, appId: string): Promise<IConversationState> {
         var userStatesJson: string | null | undefined = await this.persistance.getAsync(userId);
         if (userStatesJson != null) {
             var userStates: IUserConversationStates = JSON.parse(userStatesJson);
@@ -22,7 +24,7 @@ export class StateManager implements IStateManager {
                 }
             }
         }
-        return null;
+        return await this.setUserStateAsync(userId, appId, { application_id: appId });
     }
 
     async setUserStateAsync(userId: string, appId: string, state: IConversationState): Promise<any> {
@@ -32,6 +34,9 @@ export class StateManager implements IStateManager {
         }
         userStates.states[state.application_id] = state;
         var set = await this.persistance.setAsync(userId, userStates);
-        return set;
+        if (set == "OK") {
+            return userStates.states[state.application_id];
+        }
+        return {};
     }
 }
