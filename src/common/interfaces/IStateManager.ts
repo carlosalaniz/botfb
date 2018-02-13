@@ -1,4 +1,5 @@
 import { MessageStatusEnum } from "../../bot_hooks/common/dtos/Conversation/MessageStatusEnum";
+import { IConversationState } from "../../bot_hooks/common/dtos/Conversation/IConversationState";
 
 enum confimationResponse {
     confirm = "yes",

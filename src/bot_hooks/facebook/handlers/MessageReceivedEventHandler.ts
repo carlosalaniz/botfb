@@ -12,17 +12,35 @@ abstract class BaseFacebookMessageEventHandler {
     protected stateManager: IStateManager = ServiceManager.StateManager;
     protected async updateStateStatusAsync(data: IMessageEventDto) {
         var currentStatus = await this.stateManager.getCurrentStateAsync(data.sender.id, config["FacebookPageId"]);
-        var status;
+        currentStatus
+        var currentState;
         switch (this.eventType) {
             case WebhookEventsEnum.message_deliveries:
-                status = MessageStatusEnum.message_delivered;
+                currentState = MessageStatusEnum.message_delivered;
                 break;
             case WebhookEventsEnum.message_reads:
-                status = MessageStatusEnum.message_read;
+                currentState = MessageStatusEnum.message_read;
                 break;
             case WebhookEventsEnum.messages:
-                status = MessageStatusEnum.message_recieved;
+                currentState = MessageStatusEnum.message_recieved;
                 break;
+            default:
+                currentState = null;
+        }
+
+
+        switch (this.eventType) {
+            case WebhookEventsEnum.message_deliveries:
+                currentState = MessageStatusEnum.message_delivered;
+                break;
+            case WebhookEventsEnum.message_reads:
+                currentState = MessageStatusEnum.message_read;
+                break;
+            case WebhookEventsEnum.messages:
+                currentState = MessageStatusEnum.message_recieved;
+                break;
+            default:
+                currentState = null;
         }
     }
 }
@@ -36,6 +54,7 @@ export class MessageReceivedEventHandler
     processor: FacebookMessageProcessor;
     async HandleAsync(data: IMessageEventDto) {
         try {
+            this.updateStateStatusAsync(data);
             await this.processor.proccessAsync(data);
         } catch (e) {
             console.error(e);

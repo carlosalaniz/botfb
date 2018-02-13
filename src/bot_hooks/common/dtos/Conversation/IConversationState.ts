@@ -1,13 +1,13 @@
 import { MessageStatusEnum } from "./MessageStatusEnum";
 
-interface IUserConversationStates {
+export interface IUserConversationStates {
     user_id: string,
     states: {
         [application_id: string]: IConversationState
     }
 }
 
-interface IConversationState {
+export interface IConversationState {
     application_id: string
     messageStatus?: MessageStatusEnum,
     action?: string,

@@ -1,6 +1,8 @@
 import { ServiceManager } from "../../config/ServiceManager";
 import { MessageStatusEnum } from "../bot_hooks/common/dtos/Conversation/MessageStatusEnum";
 import { IStateManager } from "./interfaces/IStateManager";
+import { IUserConversationStates } from "../bot_hooks/common/dtos/Conversation/IConversationState";
+import { IConversationState } from "../bot_hooks/common/dtos/Conversation/IConversationState";
 
 export class StateManager implements IStateManager {
     persistance: IPersistance;
