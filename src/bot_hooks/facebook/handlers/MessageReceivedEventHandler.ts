@@ -24,7 +24,6 @@ export class MessageReceivedEventHandler
     processor: FacebookMessageProcessor;
     async HandleAsync(data: IMessageEventDto) {
         try {
-            this.updateStateStatusAsync(data);
             await this.processor.proccessAsync(data);
         } catch (e) {
             console.error(e);
