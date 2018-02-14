@@ -6,3 +6,9 @@ export enum MessageStatusEnum {
     message_delivered = "message_delivered",    
     awaiting_confirmation = "awaiting_confirmation",
 }
+
+export enum ConversationTypesEnum{
+    opening = "opening",
+    questions = "questions",
+    closing = "closing"
+}

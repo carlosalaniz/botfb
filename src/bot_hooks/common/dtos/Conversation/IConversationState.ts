@@ -1,4 +1,4 @@
-import { MessageStatusEnum } from "./MessageStatusEnum";
+import { MessageStatusEnum, ConversationTypesEnum } from "./MessageStatusEnum";
 
 export interface IUserConversationStates {
     user_id: string,
@@ -7,16 +7,23 @@ export interface IUserConversationStates {
     }
 }
 
+
 export interface IConversationState {
-    application_id: string
-    messageStatus?: MessageStatusEnum,
-    action?: string,
-    conversation?: number,
-    opening?: number,
-    questions?: number,
-    closing?: number,
-    awaiting_answer?: boolean,
-    awaiting_confirmation?: boolean,
-    payload?: Object
+    application_id: string,
+    action: {
+        id: string,
+        conversation: {
+            awaiting: {
+                confirmation: boolean,
+                input: boolean,
+            },
+            indx: number,
+            state: {
+                type: ConversationTypesEnum
+                indx: 0
+            }
+        },
+        payload?: object
+    }
 }
 

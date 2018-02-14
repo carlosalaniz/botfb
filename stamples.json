@@ -1,0 +1,18 @@
+{
+    "application_id":"",
+    "action": {
+        "id": "schedule_appointment",
+        "conversation": {
+            "awaiting": {
+                "answer": true,
+                "confirmation": false
+            },
+            "indx": 0,
+            "state": {
+                "type": "opening",
+                "indx": 0
+            }
+        },
+        "payload":{}
+    }
+}

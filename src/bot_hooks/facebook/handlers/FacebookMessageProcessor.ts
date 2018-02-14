@@ -1,5 +1,5 @@
 import { MessageProcessor } from "../../common/interfaces/MessageProcessor";
-import { ServiceManager } from "../../../../config/ServiceManager";
+import { ContextManager } from "../../../../config/ContextManager";
 
 
 var config = require('config');
@@ -22,6 +22,6 @@ export class FacebookMessageProcessor extends MessageProcessor<ISendMessageDto<a
     persistance: IPersistance;
     constructor() {
         super();
-        this.persistance = ServiceManager.PersistanceService;
+        this.persistance = ContextManager.PersistanceService;
     }
 }

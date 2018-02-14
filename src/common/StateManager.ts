@@ -1,4 +1,4 @@
-import { ServiceManager } from "../../config/ServiceManager";
+import { ContextManager } from "../../config/ContextManager";
 import { MessageStatusEnum } from "../bot_hooks/common/dtos/Conversation/MessageStatusEnum";
 import { IStateManager } from "./interfaces/IStateManager";
 import { IUserConversationStates } from "../bot_hooks/common/dtos/Conversation/IConversationState";
@@ -7,7 +7,7 @@ import { IConversationState } from "../bot_hooks/common/dtos/Conversation/IConve
 export class StateManager implements IStateManager {
     persistance: IPersistance;
     constructor() {
-        this.persistance = ServiceManager.PersistanceService;
+        this.persistance = ContextManager.PersistanceService;
     }
     async getCurrentStateStatusAsync(userId: string, appId: string): Promise<MessageStatusEnum | null> {
         var userAppState = await this.getCurrentStateAsync(userId, appId);
