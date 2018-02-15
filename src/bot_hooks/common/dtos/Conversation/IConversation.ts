@@ -1,6 +1,7 @@
 interface IConversation {
-    field?: string | null;
+    field?: string;
     opening: IMessage[],
     questions?: IMessage[],
-    closing?: IMessage[]
+    closing?: IMessage[],
+    [key: string]: IMessage[] | undefined | string
 }

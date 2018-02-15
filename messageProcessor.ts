@@ -1,5 +1,6 @@
 import { ContextManager } from "./config/ContextManager";
 import { IConversationState } from "./src/bot_hooks/common/dtos/Conversation/IConversationState";
+import { ConversationTypesEnum } from "./src/bot_hooks/common/dtos/Conversation/MessageStatusEnum";
 
 var userId = ContextManager.setUserId("1");
 var appId = ContextManager.setAppId("TESTAPP");
@@ -30,18 +31,49 @@ function processMessage(message: IMessage) {
  * @param cMap 
  */
 function proccessInput(input: string, state: IConversationState, cMap: IConversationDefinition) {
-    const awaiting = state.action.conversation.awaiting;
-    const actionIndx: string = <string>state.action.id;
-    const conversationIndx: number = <number>state.action.conversation.indx;
+    if (!state.action) return;
+    const actionIndx = state.action.id;
     const action = cMap.actions[actionIndx];
+
+    const conversationIndx = state.action.conversation.indx;
     const conversation = action.conversation[conversationIndx];
     const conversationType = state.action.conversation.state.type;
-    const messageIndx = state.action.conversation.state.indx;
+    const awaiting = state.action.conversation.state.awaiting;
+
 
     //Try to start conversation
-    let messages = <IMessage[]>conversation[conversationType];
-    var message = messages[messageIndx];
+    const messageIndx = state.action.conversation.state.indx;
+    let messages = conversation[conversationType]; // opening, questions closing, end
 
+    var message = <IMessage[] | undefined>messages[messageIndx];
+    if (!message) {
+        //If no more messages advance to next conversation state
+        let next = {
+            type: conversationType,
+            indx: 0,
+            awaiting: {
+                confirmation: false,
+                input: false
+            }
+        };
+        switch (conversationType) {
+            case ConversationTypesEnum.opening:
+                next.type = ConversationTypesEnum.questions;
+                break;
+            case ConversationTypesEnum.questions:
+                next.type = ConversationTypesEnum.closing;
+                break;
+            case ConversationTypesEnum.closing:
+                next.type = ConversationTypesEnum.end;
+                break;
+        }
+        //advance to next conservsation Type
+        state.action.conversation.state = next;
+        return;
+    }
+
+
+    //Process Message
     if (!awaiting.confirmation && !awaiting.input) {
         let fieldKey = action.field;
         if (fieldKey) {
@@ -63,24 +95,48 @@ function proccessInput(input: string, state: IConversationState, cMap: IConversa
         if (confirmation) {
             message = <IMessage>confirmation.message;
             if (confirmation.continue) { }
-            else if (confirmation.exit) { }
-            else if (confirmation.reiterate) { }
-            else if (confirmation.reset) { }
+            else if (confirmation.exit) {
+                state.action = undefined;
+            }
+            else if (confirmation.reiterate) {
+                state.action.conversation.state.indx = 0;
+            }
+            else if (confirmation.reset) {
+                state.action.conversation.state.type = ConversationTypesEnum.opening;
+                state.action.conversation.state.indx = 0;
+            }
         }
     }
 
     processMessage(message);
+
     return true;
 }
 
-function updateState(state: IConversationState) {
-
+function isValidAction(input: string): boolean {
+    return true;
 }
 
-function procesS(input: string, state: IConversationState) {
-    let cmap: IConversationDefinition = {};
-    if (proccessInput(input, state, cmap)) {
-        updateState(state);
+function process(input: string, state: IConversationState, cMap: IConversationDefinition) {
+    if (!state.action) {
+
+        if (!isValidAction(input)) return;
+        state.action = {
+            id: input,
+            conversation: {
+                indx: 0,
+                state: {
+                    indx: 0,
+                    type: ConversationTypesEnum.opening,
+                    awaiting: {
+                        confirmation: false,
+                        input: false
+                    },
+                }
+            },
+            payload: {}
+        }
+        proccessInput(input, state, cMap)
     }
 }
 

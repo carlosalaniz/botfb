@@ -10,20 +10,20 @@ export interface IUserConversationStates {
 
 export interface IConversationState {
     application_id: string,
-    action: {
+    action?: {
         id: string,
         conversation: {
-            awaiting: {
-                confirmation: boolean,
-                input: boolean,
-            },
             indx: number,
             state: {
                 type: ConversationTypesEnum
-                indx: 0
+                awaiting: {
+                    confirmation: boolean,
+                    input: boolean,
+                },
+                indx: number
             }
         },
-        payload?: object
+        payload: object
     }
 }
 

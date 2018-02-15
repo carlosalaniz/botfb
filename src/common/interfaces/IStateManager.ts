@@ -11,4 +11,5 @@ export interface IStateManager {
     getCurrentStateStatusAsync(userId: string, appId: string | undefined): Promise<MessageStatusEnum | null>;
     getCurrentStateAsync(userId: string, appId: string | undefined): Promise<IConversationState>;
     setUserStateAsync(userId: string, appId: string, state: IConversationState): Promise<void>;
+    resetUserStateAsync(userId: string, appId: string): Promise<void>;
 }

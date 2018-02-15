@@ -10,5 +10,6 @@ export enum MessageStatusEnum {
 export enum ConversationTypesEnum{
     opening = "opening",
     questions = "questions",
-    closing = "closing"
+    closing = "closing",
+    end = "do_not_process"
 }
