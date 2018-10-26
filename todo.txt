@@ -1,4 +1,7 @@
 *Messenger profile
 	Greeting messages
+		Hola
+		Hello
+		I have a question
 
 	Persistent Menu
